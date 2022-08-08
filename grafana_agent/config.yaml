@@ -10,9 +10,12 @@ prometheus:
     - name: local
       host_filter: false
       scrape_configs:
-        - job_name: cloudflare-analytics-edge-gateway
+        - job_name: edge-gateway-cloudflare-analytics
           static_configs:
             - targets: ['edge-gateway-cf-zone-analytics.dag.haus']
+        - job_name: edge-gateway-superhot
+          static_configs:
+            - targets: ['api.nftstorage.link']
       remote_write:
         - url: ${PROMETHEUS_PUSH_URL}
           basic_auth:
