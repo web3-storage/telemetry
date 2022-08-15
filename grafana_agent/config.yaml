@@ -1,0 +1,23 @@
+server:
+  log_level: debug
+
+prometheus:
+  global:
+    scrape_interval: 5m
+    external_labels:
+      scraped_by: grafana-agent
+  configs:
+    - name: local
+      host_filter: false
+      scrape_configs:
+        - job_name: edge-gateway-cloudflare-analytics
+          static_configs:
+            - targets: ['edge-gateway-cf-zone-analytics.dag.haus']
+        - job_name: edge-gateway-superhot
+          static_configs:
+            - targets: ['api.nftstorage.link']
+      remote_write:
+        - url: ${PROMETHEUS_PUSH_URL}
+          basic_auth:
+            username: ${PROMETHEUS_PUSH_USERNAME}
+            password: ${PROMETHEUS_PUSH_PASSWORD}
