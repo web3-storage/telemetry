@@ -16,9 +16,9 @@ prometheus:
         - job_name: edge-gateway-superhot
           static_configs:
             - targets: ['api.nftstorage.link']
-        - job_name: w3infra
+        - job_name: w3up
           static_configs:
-            - targets: ['up.web3.storage', 'staging.up.web3.storage']
+            - targets: ['staging.up.web3.storage']
       remote_write:
         - url: ${PROMETHEUS_PUSH_URL}
           basic_auth:
