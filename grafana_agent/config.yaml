@@ -17,6 +17,7 @@ prometheus:
           static_configs:
             - targets: ['api.nftstorage.link']
         - job_name: w3up
+          scheme: https
           static_configs:
             - targets: ['staging.up.web3.storage']
       remote_write:
