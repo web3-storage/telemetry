@@ -6,6 +6,7 @@ prometheus:
     scrape_interval: 5m
     external_labels:
       scraped_by: grafana-agent
+
   configs:
     - name: local
       host_filter: false
@@ -13,13 +14,72 @@ prometheus:
         - job_name: edge-gateway-cloudflare-analytics
           static_configs:
             - targets: ['edge-gateway-cf-zone-analytics.dag.haus']
+
         - job_name: edge-gateway-superhot
           static_configs:
             - targets: ['api.nftstorage.link']
+
         - job_name: w3up
           scheme: https
           static_configs:
             - targets: ['up.web3.storage', 'staging.up.web3.storage']
+
+        - job_name: web3_storage
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 60s
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - api.web3.storage
+
+        - job_name: web3_storage_checkup
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 1m
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - checkup.web3.storage
+
+        - job_name: nft_storage
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 5m
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - api.nft.storage
+
+        - job_name: nft_storage_link_api
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 5m
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - api.nftstorage.link
+                - api-staging.nftstorage.link
+
+        - job_name: nft_storage_zone_analytics
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 5m
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - zone-analytics.nftstorage.link
+
+        - job_name: nft_storage_checkup
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 1m
+          scrape_timeout: 45s
+          static_configs:
+            - targets:
+                - checkup.nft.storage
+
+      # Write metrics to grafana hosted prometheus backend
       remote_write:
         - url: ${PROMETHEUS_PUSH_URL}
           basic_auth:
