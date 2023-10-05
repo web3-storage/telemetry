@@ -79,6 +79,17 @@ prometheus:
             - targets:
                 - checkup.nft.storage
 
+        - job_name: daghaus-pushgateway
+          # map pushgateway labels see: https://github.com/prometheus/pushgateway#about-the-job-and-instance-labels
+          honor_labels: true 
+          metrics_path: /metrics
+          scheme: https
+          scrape_interval: 1m
+          scrape_timeout: 10s
+          static_configs:
+            - targets:
+                - pushgateway-b3zyc.ondigitalocean.app
+
       # Write metrics to grafana hosted prometheus backend
       remote_write:
         - url: ${PROMETHEUS_PUSH_URL}
